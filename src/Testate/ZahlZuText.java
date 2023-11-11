@@ -204,7 +204,6 @@ public class ZahlZuText {
     private static int getInput() {
         // --| declaration | --
         float fInput;
-        int iNumToText;
         Scanner oScan = new Scanner(System.in);
 
         // --| user input and error handling |--
@@ -222,14 +221,13 @@ public class ZahlZuText {
                     throw new Exception("Erfasste Zahl darf nicht negativ sein!");
                 }
 
-                // shift decimal place by one digit
-                iNumToText = (int) (fInput * 10);
-
                 // input format ist not xx,x
-                if (String.valueOf(iNumToText).length() > 3 || fInput >= 100) {
+                if (String.valueOf(fInput).length() > 4 || fInput >= 100) {
                     throw new Exception("Erfasste Zahl " + fInput + " ist nicht im Format xx,x!");
                 }
                 oScan.close();
+                
+                
                 break;
             } catch (Exception eError) {
                 System.out.println("****************************************************");
@@ -238,7 +236,7 @@ public class ZahlZuText {
             }
         }
 
-        return iNumToText;
+        return (int) (fInput * 10);
     }
 
 }
