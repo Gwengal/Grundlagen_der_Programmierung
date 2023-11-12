@@ -18,10 +18,8 @@ public class Rundung {
         // --| round float to int |--
         System.out.println("Zahl " + fInput + " wird zu " + Rundung.round(fInput) + " gerundet.");
 
+        // --| round float by choosen digits |--
         Rundung.roundByDigits(oScan, fInput);
-
-        // --| round number to specified number of decimal places |--
-        System.out.println("");
     }
 
     /**
