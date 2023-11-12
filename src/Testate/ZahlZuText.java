@@ -227,7 +227,6 @@ public class ZahlZuText {
                 }
                 oScan.close();
                 
-                
                 break;
             } catch (Exception eError) {
                 System.out.println("****************************************************");
