@@ -31,10 +31,13 @@ public class Rundung {
     private static void roundByDigits(Scanner oScan, float fInput) {
         // --| declaration |--
         int iDigits;
+        String sInput;
 
         // --| get digits to round |--
         System.out.print("Möchten Sie die Zahl noch auf x-Beliebige Nachkommastellen runden? [ja = Y/y]");
-        if (oScan.nextLine().contains("y") || oScan.nextLine().contains("Y")) {
+        sInput = oScan.nextLine();
+
+        if (sInput.contains("y") || sInput.contains("Y")) {
             while (true) {
                 try {
                     System.out.print("\nAuf wie viele Nachkommastellen möchten Sie runden? ");
