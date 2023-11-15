@@ -18,47 +18,52 @@ public class TagImJahr2 {
 
         // --| terminal output: Datum [date] ist der [dayinyear]. Tag im Jahr.
         System.out.println("Datum " + aDate[0] + "." + aDate[1] + "." + aDate[2] + " ist der "
-                + TagImJahr2.tagImJahr(aDate[0], aDate[1], aDate[2]) + ". Tag im Jahr.");
+                + TagImJahr2.dayInYear(Integer.parseInt(aDate[0]), Integer.parseInt(aDate[1]), Integer.parseInt(aDate[2]), aDaysinMonth) + ". Tag im Jahr.");
     }
 
     /**
+     * Get user input 
+     * 
      * @param aDaysinMonth
      * @return
      */
     private static String[] getInput(int[] aDaysinMonth) {
         // --| declaration |--
-        int iDay, iMonth;
-        String sDate;
+        String sInputDate;
         String[] aDate = null;
         Scanner oScan = new Scanner(System.in);
-        
+
         // --| get user input and validate |--
         while (true) {
             try {
                 System.out.print("Erfassen Sie bitte ein Datum im Format dd.MM.yyyy: ");
-                sDate = oScan.nextLine();
+                sInputDate = oScan.nextLine();
 
-                aDate = sDate.split("\\.");
+                aDate = sInputDate.split("\\.");
 
                 // wrong input. Input was not a date
                 if (aDate.length < 3 || aDate.length > 3) {
-                    throw new Exception("Ihre Eingabe " + sDate + " ist kein Datum!");
+                    throw new Exception("Ihre Eingabe " + sInputDate + " ist kein Datum!");
                 }
 
                 // --| check if input year is leap year |--
-                if (isLeapYear(Integer.parseInt(aDate[2]))){
+                if (isLeapYear(Integer.parseInt(aDate[2]))) {
                     aDaysinMonth[1] = 29;
                 }
-                
+
                 // input days > days in month
                 if (aDaysinMonth[(Integer.parseInt(aDate[1]) - 1)] < Integer.parseInt(aDate[0])) {
-                    
+                    throw new Exception(
+                            "Der Monat " + aDate[1] + " hat nur " + aDaysinMonth[(Integer.parseInt(aDate[1]) - 1)]
+                                    + " Tage. Sie haben " + aDate[0] + " erfasst!");
                 }
 
                 oScan.close();
                 break;
             } catch (Exception eError) {
-
+                System.out.println("****************************************************");
+                System.out.println("ERROR !!! -> " + eError.getMessage());
+                System.out.println("****************************************************\n");
             }
         }
 
@@ -71,18 +76,27 @@ public class TagImJahr2 {
      * @param iYear
      * @return
      */
-    private static boolean isLeapYear(int iYear){
-        return (iYear % 4 == 0 && (iYear % 100 != 0 || iYear % 400 == 0) ? true : false );
+    private static boolean isLeapYear(int iYear) {
+        return (iYear % 4 == 0 && (iYear % 100 != 0 || iYear % 400 == 0) ? true : false);
     }
 
     /**
+     * Add up the days in the year 
+     * 
      * @param iTag
-     * @param iMonat
-     * @param iJahr
+     * @param iMonth
+     * @param iYear
      * @return
      */
-    private static int tagImJahr(int iTag, int iMonat, int iJahr) {
+    private static int dayInYear(int iDay, int iMonth, int iYear, int[] aDaysinMonth) {
+        // --| declaration |--
+        int iDayinYear = 0;
 
-        return 0;
+        // --| add up the days in the year |--
+        for (int i = 0; i < iMonth; i++) {
+            iDayinYear = ((i + 1) == iMonth ? (iDayinYear + iDay) : (iDayinYear + aDaysinMonth[i]));
+        }
+
+        return iDayinYear;
     }
 }
