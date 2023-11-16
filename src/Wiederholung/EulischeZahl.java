@@ -18,7 +18,6 @@ public class EulischeZahl {
 
         System.out.println(dE);
         System.err.println(Math.E);
-
     }
 
     /**

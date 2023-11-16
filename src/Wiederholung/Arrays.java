@@ -14,7 +14,7 @@ public class Arrays {
      */
     private static void printArray(int[] aInt){
         for (int i = 0; i < aInt.length; i++) {
-            System.out.println(aInt[i] + " ");
+            System.out.print(aInt[i] + " ");
         }
     }
 }
