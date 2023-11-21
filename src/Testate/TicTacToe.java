@@ -43,11 +43,88 @@ public class TicTacToe {
      * @param oScanner
      */
     private static void startGame(char[][] aPlayfield, Scanner oScanner) {
+        // --| Deklaration |--
+        char cTurnChar;
+        String sPlayer;
+        
+        /*
+         * 1. Ermittlung um welchen Spieler es sich in der aktuellen Runde handelt
+         * 2. Spielzug des Spieler durchführen
+         * 2.1 Eingabe aus Terminal auslesen
+         * 2.2 Eingabe validieren
+         * 2.3 Koordinaten setzen
+         * 3. Geändertes Spielfeld ausgeben
+         * 4. Prüfen ob ein Spieler gewonnen hat oder ob Unentschieden ist
+         */
         for (int i = 0; i < 9; i++) {
-            TicTacToe.setTurn(i, aPlayfield, oScanner);
+            if (i % 2 == 0) {
+                sPlayer = "Spieler 1";
+                cTurnChar = 'x';
+            }else{
+                sPlayer = "Spieler 2";
+                cTurnChar = 'o';
+            }
+
+            TicTacToe.setTurn(sPlayer, cTurnChar, aPlayfield, oScanner);
             TicTacToe.printArray2(aPlayfield, false);
             
+            // --| Prüfen ob der aktuelle Spieler gewonnen hat |--
+            if (TicTacToe.checkWin(cTurnChar, sPlayer, aPlayfield)) {
+                break;
+            }
+
+            // --| Unentschieden, keiner hat verloren |--
+            if ((i+1) == 9) {
+                System.out.println("Unentschieden!");
+            }
         }
+    }
+
+    /**
+     * Prüfungen durchführen, ob der aktuelle Spieler gewonnen hat:
+     * 1. Horizontal gewonnen
+     * 2. Vertikal gewonnen
+     * 3. Schräg gewonnen
+     * 
+     * @param cTurnChar
+     * @param sPlayer
+     * @param aPlayfield
+     * @return
+     */
+    private static boolean checkWin(char cTurnChar, String sPlayer, char[][] aPlayfield) {
+        // --| Deklaration |--
+        String sWinOutput = sPlayer + " hat";
+        boolean bWin = false;
+
+        // --| Überprüfung ob der aktuelle Spieler gewonnen hat |--
+        for (int i = 0; i < 3; i++) {
+            // Horrizontal gewonnen
+            if (aPlayfield[i][0] == cTurnChar && aPlayfield[i][1] == cTurnChar && aPlayfield[i][2] == cTurnChar) {
+                bWin = true;
+                sWinOutput = sWinOutput + " horizontal gewonnen!";
+                break;
+            }          
+
+            // Vertikal gewonnen
+            if (aPlayfield[0][i] == cTurnChar && aPlayfield[1][i] == cTurnChar && aPlayfield[2][i] == cTurnChar) {
+                bWin = true;
+                sWinOutput = sWinOutput + " vertikal gewonnen!";
+                break;
+            }
+        }
+
+        // Schräg gewonnen
+        if ((aPlayfield[0][0] == cTurnChar && aPlayfield[1][1] == cTurnChar && aPlayfield[2][2] == cTurnChar) || (aPlayfield[0][2] == cTurnChar && aPlayfield[1][1] == cTurnChar && aPlayfield[2][0] == cTurnChar)) {
+            bWin = true;
+            sWinOutput = sWinOutput + " schräg gewonnen!";
+        }
+
+        // Aktueller Spieler hat gewonnen!
+        if (bWin) {
+            System.out.println(sWinOutput);
+        }
+        
+        return bWin;
     }
 
     /**
@@ -60,15 +137,15 @@ public class TicTacToe {
      * @param aCoordinate
      * @param oScanner
      */
-    private static void setTurn(int iRound, char[][] aPlayfield, Scanner oScanner) {
+    private static void setTurn(String sPlayer, char cTurnChar, char[][] aPlayfield, Scanner oScanner) {
         // --| Deklaration |--
         int[] aCoordinate;
 
         // --| Eingabe aus der Konsole auslesen und validieren |--
-        aCoordinate = TicTacToe.getInput((iRound % 2 == 0 ? "Spieler 1" : "Spieler 2"), aPlayfield, oScanner);
+        aCoordinate = TicTacToe.getInput(sPlayer, aPlayfield, oScanner);
 
         // Koordinaten setzen
-        aPlayfield[(aCoordinate[0] - 1)][(aCoordinate[1] - 1)] = (iRound % 2 == 0 ? 'x' : 'o');
+        aPlayfield[(aCoordinate[0] - 1)][(aCoordinate[1] - 1)] = cTurnChar;
     }
 
     /**
