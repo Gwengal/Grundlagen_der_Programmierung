@@ -5,6 +5,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
+    private static char _scPlayfield = '-';
+
     /**
      * @param args
      */
@@ -182,7 +184,7 @@ public class TicTacToe {
             for (int k = 0; k < 2; k++) {
                 for (int i = 0; i < aPlayfield.length; i++) {
                     for (int j = 0; j < aPlayfield[i].length; j++) {
-                        if (aPlayfield[i][j] == '-') {
+                        if (aPlayfield[i][j] == _scPlayfield) {
                             if (k > 0) {
                                 aAvailRow[iIndex] = (i + 1);
                                 aAvailColumn[iIndex] = (j + 1);
@@ -225,67 +227,144 @@ public class TicTacToe {
      */
     private static int[] checkVicThwarted(char cTurnChar, char[][] aPlayfield) {
         // --| Deklaration |--
+        int iXY;
         char cEnemyTurn = (cTurnChar == 'x' ? 'o' : 'x');
         int[] aCoordinate = new int[2];
 
         // --| Horizontale, vertikale und schräge Siege verhindern |--
         try {
             for (int i = 0; i < aPlayfield.length; i++) {
-                // Horizontalen Sieg von links verhindern
-                if (aPlayfield[i][0] == cEnemyTurn && aPlayfield[i][1] == cEnemyTurn) {
-                    aCoordinate[0] = (i+1);
+                iXY = (i+1);
+                
+                // Horizontalen Sieg verhindern -> |x|x|-|
+                if (aPlayfield[i][0] == cEnemyTurn && aPlayfield[i][1] == cEnemyTurn && aPlayfield[i][2] == _scPlayfield) {
+                    aCoordinate[0] = iXY;
                     aCoordinate[1] = 3;
 
                     throw new Exception();
                 }
-                // Horizontalen Sieg von rechts verhindern
-                else if (aPlayfield[i][2] == cEnemyTurn && aPlayfield[i][1] == cEnemyTurn) {
-                    aCoordinate[0] = (i+1);
+                // Horizontalen Sieg verhindern -> |-|x|x|
+                else if (aPlayfield[i][0] == _scPlayfield && aPlayfield[i][1] == cEnemyTurn && aPlayfield[i][2] == cEnemyTurn) {
+                    aCoordinate[0] = iXY;
                     aCoordinate[1] = 1;
 
                     throw new Exception();
                 }
-                // Vertikalen Sieg von oben nach unten verhindern
-                else if (aPlayfield[0][i] == cEnemyTurn && aPlayfield[1][i] == cEnemyTurn) {
-                    aCoordinate[0] = 3;
-                    aCoordinate[1] = (i+1);
+                // Horizontaler Sieg verhindern -> |x|-|x|
+                else if (aPlayfield[i][0] == cEnemyTurn && aPlayfield[i][1] == _scPlayfield && aPlayfield[i][2] == cEnemyTurn){
+                    aCoordinate[0] = iXY;
+                    aCoordinate[1] = 2;
 
                     throw new Exception();
                 }
-                // Vertikalen Sieg von unten nach oben verhindern
-                else if (aPlayfield[2][i] == cEnemyTurn && aPlayfield[1][i] == cEnemyTurn) {
+                /*
+                 * Vertikalen Sieg verhindern:
+                 * |x|
+                 * |x|
+                 * |-| 
+                 */
+                else if (aPlayfield[0][i] == cEnemyTurn && aPlayfield[1][i] == cEnemyTurn && aPlayfield[2][i] == _scPlayfield) {
+                    aCoordinate[0] = 3;
+                    aCoordinate[1] = iXY;
+
+                    throw new Exception();
+                }
+                /*
+                 * Vertikalen Sieg verhindern:
+                 * |-|
+                 * |x|
+                 * |x|
+                 */
+                else if (aPlayfield[0][i] == _scPlayfield && aPlayfield[1][i] == cEnemyTurn && aPlayfield[2][i] == cEnemyTurn) {
                     aCoordinate[0] = 1;
-                    aCoordinate[1] = (i+1);
+                    aCoordinate[1] = iXY;
+
+                    throw new Exception();
+                }
+                /*
+                 * Vertikalen Sieg verhindern:
+                 * |x|
+                 * |-|
+                 * |x|
+                 */
+                else if (aPlayfield[0][i] == cEnemyTurn && aPlayfield[1][i] == _scPlayfield && aPlayfield[2][i] == cEnemyTurn){
+                    aCoordinate[0] = 2;
+                    aCoordinate[1] = iXY;
 
                     throw new Exception();
                 }
             }
 
-            // Schrägen Sieg von links oben nach rechts unten verhindern
-            if (aPlayfield[0][0] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn) {
+            /*
+             * Schrägen Sieg verhindern:
+             * |x|
+             * |-|x|
+             * |-|-|-|
+             */
+            if (aPlayfield[0][0] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][2] == _scPlayfield) {
                 aCoordinate[0] = 3;
                 aCoordinate[1] = 3;
 
                 throw new Exception();
             } 
-            // Schrägen Sieg von rechts unten nach links oben verhindern
-            else if (aPlayfield[2][2] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn) {
+            /*
+             * Schrägen Sieg verhindern:
+             * |-|
+             * |-|x|
+             * |-|-|x|
+             */
+            else if (aPlayfield[0][0] == _scPlayfield && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][2] == cEnemyTurn) {
                 aCoordinate[0] = 1;
-                aCoordinate[0] = 1;
+                aCoordinate[1] = 1;
 
                 throw new Exception();
             }
-            // Schrägen Sieg von rechts oben nach links unten verhindern
-            else if (aPlayfield[0][2] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn){
+            /*
+             * Schrägen Sieg verhindern:
+             * |x|
+             * |-|-|
+             * |-|-|x|
+             */
+            else if (aPlayfield[0][0] == cEnemyTurn && aPlayfield[1][1] == _scPlayfield && aPlayfield[2][2] == cEnemyTurn) {
+                aCoordinate[0] = 2;
+                aCoordinate[1] = 2;
+
+                throw new Exception();
+            }
+            /*
+             * Schrägen Sieg verhindern:
+             * |-|-|x|
+             * |-|x|
+             * |-|
+             */
+
+            else if (aPlayfield[0][2] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][0] == _scPlayfield){
                 aCoordinate[0] = 3;
                 aCoordinate[1] = 1;
 
                 throw new Exception();
             }
-            // Schrägen Sieg von links unten nach rechts oben verhindern
-            else if (aPlayfield[2][0] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn){
+            /*
+             * Schrägen Sieg verhindern:
+             * |-|-|-|
+             * |-|x|
+             * |x|
+             */
+            else if (aPlayfield[0][2] == _scPlayfield && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][0] == cEnemyTurn ){
                 aCoordinate[0] = 1;
                 aCoordinate[1] = 3;
+
+                throw new Exception();
+            }
+            /*
+             * Schrägen Sieg verhindern:
+             * |-|-|x|
+             * |-|-|
+             * |x|
+             */
+            else if (aPlayfield[0][2] == cEnemyTurn && aPlayfield[1][1] == _scPlayfield && aPlayfield[2][0] == cEnemyTurn){
+                aCoordinate[0] = 2;
+                aCoordinate[1] = 2;
 
                 throw new Exception();
             }
@@ -452,7 +531,7 @@ public class TicTacToe {
         }
 
         // Erfasste Koordinaten sind bereits belegt
-        if (aPlayfield[(aCoordinate[0] - 1)][(aCoordinate[1] - 1)] != '-') {
+        if (aPlayfield[(aCoordinate[0] - 1)][(aCoordinate[1] - 1)] != _scPlayfield) {
             throw new Exception("Koordinaten sind bereits belegt!");
         }
     }
@@ -469,7 +548,7 @@ public class TicTacToe {
         for (int i = 0; i < aPlayfield.length; i++) {
             for (int j = 0; j < aPlayfield[i].length; j++) {
                 // Kenner gesetzt, dass das Spielfeld initialisiert wurde
-                aPlayfield[i][j] = (bCreateField == true ? aPlayfield[i][j] = '-' : aPlayfield[i][j]);
+                aPlayfield[i][j] = (bCreateField == true ? aPlayfield[i][j] = _scPlayfield : aPlayfield[i][j]);
                 System.out.print("|" + aPlayfield[i][j]);
             }
             System.out.println("|");
