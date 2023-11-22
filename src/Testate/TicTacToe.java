@@ -5,7 +5,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
-    private static char _scPlayfield = '-';
+    private static char _scPlayfield = '-',
+            _scPlayer1 = 'x',
+            _scPlayer2 = 'o';
 
     /**
      * @param args
@@ -122,21 +124,25 @@ public class TicTacToe {
              */
             if (i % 2 == 0) {
                 sCurrPlayer = sPlayer1;
-                cTurnChar = 'x';
+                cTurnChar = _scPlayer1;
                 bPCTurn = false;
             } else {
                 sCurrPlayer = sPlayer2;
-                cTurnChar = 'o';
+                cTurnChar = _scPlayer2;
                 bPCTurn = bPlayAgainstPC;
             }
 
             /*
              * 1. User ist am Zug
-             * 3.1 Eingabe aus der Konsole auslesen
-             * 3.2 Eingabe validieren
-             * 3.3 Koordinaten belegen
-             * 2. Rechner ist am Zug
-             * 2.1 ToDo
+             * 2.1 Eingabe aus der Konsole auslesen
+             * 2.2 Eingabe validieren
+             * 2.3 Koordinaten belegen
+             * 3. Rechner ist am Zug
+             * 3.1 Prüfen ob der Rechner gewinnen kann
+             * 3.2 Prüfen ob der Gegener gewinnen kann
+             * 3.3 Random eine freie Koordinate ermitteln
+             * 3.4 Koordinaten belegen
+             * 4. Koordinaten im Spielfeld setzen
              */
             TicTacToe.setTurn(bPCTurn, sCurrPlayer, cTurnChar, aPlayfield, oScanner, oRandom);
             // Spielfeld ausgeben
@@ -155,7 +161,12 @@ public class TicTacToe {
     }
 
     /**
-     * ToDo
+     * Spielzug des Rechners
+     * 1. Prüfen ob Rechner gewinnen kann
+     * -> Koordinaten belegen
+     * 2. Prüfen ob Gegner gewinnen könnte
+     * -> Koordinaten belegen
+     * 3. Zufällige freie Koordinate im Spielfeld ermitteln
      * 
      * @param cTurnChar
      * @param sPlayer
@@ -171,11 +182,21 @@ public class TicTacToe {
                 aCoordinate = null;
 
         /*
-         * Spielfeld überprüfen ob der gegnerische Spieler einen möglichen 
-         * Sieg eringen könnte. Dies wird unterbunden indem die Koordinate
-         * mit dem Spielzeichen des Computers belegt wird
+         * 1. Durchlauf:
+         * Prüfen ob Rechner gewinnen kann
+         * -> Koordinaten belgen
+         * 2. Durchlauf:
+         * Prüfen ob Gegner gewinnen kann
+         * -> Koordinaten belegen
          */
-        aCoordinate = TicTacToe.checkVicThwarted(cTurnChar, aPlayfield);
+        for (int i = 0; i < 2; i++) {
+            aCoordinate = TicTacToe.checkWinLose(cTurnChar, (i == 0 ? true : false), aPlayfield);
+
+            // Schleife verlassen, da Koordinaten ermittelt wurden
+            if (aCoordinate != null) {
+                break;
+            }
+        }
 
         // --| Ermittlung der freien Koordinaten auf dem Spielfeld |--
         if (aCoordinate == null) {
@@ -217,77 +238,84 @@ public class TicTacToe {
     }
 
     /**
-     * Das aktuelle Spielfeld wird überprüft, ob der Gegner 
-     * einen möglichen Sieg eringen könnte. Sollte dies der 
-     * Fall sein, muss dies dringend verhindert werden.
+     * Ermittlung der Koordinaten für den Sieg des Rechners
+     * bzw. um den Sieg des Gegners zu verhindern
      * 
      * @param cTurnChar
+     * @param bTryToWin
      * @param aPlayfield
      * @return
      */
-    private static int[] checkVicThwarted(char cTurnChar, char[][] aPlayfield) {
+    private static int[] checkWinLose(char cTurnChar, boolean bTryToWin, char[][] aPlayfield) {
         // --| Deklaration |--
         int iXY;
-        char cEnemyTurn = (cTurnChar == 'x' ? 'o' : 'x');
+        char cTurn = (cTurnChar == _scPlayer1 ? _scPlayer2 : _scPlayer1);
         int[] aCoordinate = new int[2];
 
-        // --| Horizontale, vertikale und schräge Siege verhindern |--
+        // --| Horizontale, vertikale und schräge Siege (verhindern) |--
         try {
+            cTurn = (bTryToWin ? cTurnChar : cTurn);
             for (int i = 0; i < aPlayfield.length; i++) {
-                iXY = (i+1);
-                
-                // Horizontalen Sieg verhindern -> |x|x|-|
-                if (aPlayfield[i][0] == cEnemyTurn && aPlayfield[i][1] == cEnemyTurn && aPlayfield[i][2] == _scPlayfield) {
+                iXY = (i + 1);
+
+                // Horizontalen Sieg (verhindern) -> |x|x|-|
+                if (aPlayfield[i][0] == cTurn && aPlayfield[i][1] == cTurn
+                        && aPlayfield[i][2] == _scPlayfield) {
                     aCoordinate[0] = iXY;
                     aCoordinate[1] = 3;
 
                     throw new Exception();
                 }
-                // Horizontalen Sieg verhindern -> |-|x|x|
-                else if (aPlayfield[i][0] == _scPlayfield && aPlayfield[i][1] == cEnemyTurn && aPlayfield[i][2] == cEnemyTurn) {
+                // Horizontalen Sieg (verhindern) -> |-|x|x|
+                else if (aPlayfield[i][0] == _scPlayfield && aPlayfield[i][1] == cTurn
+                        && aPlayfield[i][2] == cTurn) {
                     aCoordinate[0] = iXY;
                     aCoordinate[1] = 1;
 
                     throw new Exception();
                 }
-                // Horizontaler Sieg verhindern -> |x|-|x|
-                else if (aPlayfield[i][0] == cEnemyTurn && aPlayfield[i][1] == _scPlayfield && aPlayfield[i][2] == cEnemyTurn){
+                // Horizontaler Sieg (verhindern) -> |x|-|x|
+                else if (aPlayfield[i][0] == cTurn && aPlayfield[i][1] == _scPlayfield
+                        && aPlayfield[i][2] == cTurn) {
                     aCoordinate[0] = iXY;
                     aCoordinate[1] = 2;
 
                     throw new Exception();
                 }
                 /*
-                 * Vertikalen Sieg verhindern:
+                 * Vertikalen Sieg (verhindern):
                  * |x|
                  * |x|
-                 * |-| 
+                 * |-|
                  */
-                else if (aPlayfield[0][i] == cEnemyTurn && aPlayfield[1][i] == cEnemyTurn && aPlayfield[2][i] == _scPlayfield) {
+                else if (aPlayfield[0][i] == cTurn && aPlayfield[1][i] == cTurn
+                        && aPlayfield[2][i] == _scPlayfield) {
                     aCoordinate[0] = 3;
                     aCoordinate[1] = iXY;
 
                     throw new Exception();
                 }
                 /*
-                 * Vertikalen Sieg verhindern:
+                 * Vertikalen Sieg (verhindern):
                  * |-|
                  * |x|
                  * |x|
                  */
-                else if (aPlayfield[0][i] == _scPlayfield && aPlayfield[1][i] == cEnemyTurn && aPlayfield[2][i] == cEnemyTurn) {
+                else if (aPlayfield[0][i] == _scPlayfield && aPlayfield[1][i] == cTurn
+                        && aPlayfield[2][i] == cTurn) {
                     aCoordinate[0] = 1;
                     aCoordinate[1] = iXY;
 
                     throw new Exception();
                 }
                 /*
-                 * Vertikalen Sieg verhindern:
+                 * Vertikalen Sieg (verhindern):
                  * |x|
                  * |-|
                  * |x|
                  */
-                else if (aPlayfield[0][i] == cEnemyTurn && aPlayfield[1][i] == _scPlayfield && aPlayfield[2][i] == cEnemyTurn){
+                else if (aPlayfield[0][i] == cTurn && aPlayfield[1][i] == _scPlayfield
+                        && aPlayfield[2][i] == cTurn) {
                     aCoordinate[0] = 2;
                     aCoordinate[1] = iXY;
 
@@ -296,73 +324,78 @@ public class TicTacToe {
             }
 
             /*
-             * Schrägen Sieg verhindern:
+             * Schrägen Sieg (verhindern):
              * |x|
              * |-|x|
              * |-|-|-|
              */
-            if (aPlayfield[0][0] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][2] == _scPlayfield) {
+            if (aPlayfield[0][0] == cTurn && aPlayfield[1][1] == cTurn && aPlayfield[2][2] == _scPlayfield) {
                 aCoordinate[0] = 3;
                 aCoordinate[1] = 3;
 
                 throw new Exception();
-            } 
+            }
             /*
-             * Schrägen Sieg verhindern:
+             * Schrägen Sieg (verhindern):
              * |-|
              * |-|x|
              * |-|-|x|
              */
-            else if (aPlayfield[0][0] == _scPlayfield && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][2] == cEnemyTurn) {
+            else if (aPlayfield[0][0] == _scPlayfield && aPlayfield[1][1] == cTurn
+                    && aPlayfield[2][2] == cTurn) {
                 aCoordinate[0] = 1;
                 aCoordinate[1] = 1;
 
                 throw new Exception();
             }
             /*
-             * Schrägen Sieg verhindern:
+             * Schrägen Sieg (verhindern):
              * |x|
              * |-|-|
              * |-|-|x|
              */
-            else if (aPlayfield[0][0] == cEnemyTurn && aPlayfield[1][1] == _scPlayfield && aPlayfield[2][2] == cEnemyTurn) {
+            else if (aPlayfield[0][0] == cTurn && aPlayfield[1][1] == _scPlayfield
+                    && aPlayfield[2][2] == cTurn) {
                 aCoordinate[0] = 2;
                 aCoordinate[1] = 2;
 
                 throw new Exception();
             }
             /*
-             * Schrägen Sieg verhindern:
+             * Schrägen Sieg (verhindern):
              * |-|-|x|
              * |-|x|
              * |-|
              */
 
-            else if (aPlayfield[0][2] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][0] == _scPlayfield){
+            else if (aPlayfield[0][2] == cTurn && aPlayfield[1][1] == cTurn
+                    && aPlayfield[2][0] == _scPlayfield) {
                 aCoordinate[0] = 3;
                 aCoordinate[1] = 1;
 
                 throw new Exception();
             }
             /*
-             * Schrägen Sieg verhindern:
+             * Schrägen Sieg (verhindern):
              * |-|-|-|
              * |-|x|
              * |x|
              */
-            else if (aPlayfield[0][2] == _scPlayfield && aPlayfield[1][1] == cEnemyTurn && aPlayfield[2][0] == cEnemyTurn ){
+            else if (aPlayfield[0][2] == _scPlayfield && aPlayfield[1][1] == cTurn
+                    && aPlayfield[2][0] == cTurn) {
                 aCoordinate[0] = 1;
                 aCoordinate[1] = 3;
 
                 throw new Exception();
             }
             /*
-             * Schrägen Sieg verhindern:
+             * Schrägen Sieg (verhindern):
              * |-|-|x|
              * |-|-|
              * |x|
              */
-            else if (aPlayfield[0][2] == cEnemyTurn && aPlayfield[1][1] == _scPlayfield && aPlayfield[2][0] == cEnemyTurn){
+            else if (aPlayfield[0][2] == cTurn && aPlayfield[1][1] == _scPlayfield
+                    && aPlayfield[2][0] == cTurn) {
                 aCoordinate[0] = 2;
                 aCoordinate[1] = 2;
 
@@ -429,7 +462,10 @@ public class TicTacToe {
     }
 
     /**
-     * ToDo
+     * Spielzug durchführen
+     * Unterscheidung zwischen:
+     * - Spielzug eines Menschen
+     * - Spielzug des Rechners
      * 
      * @param bPCTurn
      * @param sPlayer
