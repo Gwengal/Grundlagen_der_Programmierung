@@ -14,14 +14,12 @@ public class Noten {
 	 * 
 	 */
 	public Noten() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Scanner oScan = new Scanner(System.in);
 		int iNote = 0;

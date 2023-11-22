@@ -14,14 +14,12 @@ public class Rechnen {
 	 * 
 	 */
 	public Rechnen() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 		int iInput1, iInput2;
 		String sOperator;
@@ -35,6 +33,7 @@ public class Rechnen {
 
 		System.out.print("Erfassen Sie den Operator: ");
 		sOperator = oScan.next();
+		oScan.close();
 
 		switch (sOperator) {
 		case "+": {

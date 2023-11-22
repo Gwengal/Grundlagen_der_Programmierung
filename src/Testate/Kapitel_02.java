@@ -8,11 +8,9 @@ import java.util.Scanner;
 public class Kapitel_02 {
 
 	public Kapitel_02() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		// Declaration
 		String sName, sDate;

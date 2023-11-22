@@ -12,14 +12,12 @@ public class Zuweisung {
 	 * 
 	 */
 	public Zuweisung() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int x = 3, y = 2, z;
 		
 		// 4

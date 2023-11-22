@@ -14,14 +14,12 @@ public class Fakultaet {
 	 * 
 	 */
 	public Fakultaet() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		int iInput = 0;
 		Scanner oScan = new Scanner(System.in);

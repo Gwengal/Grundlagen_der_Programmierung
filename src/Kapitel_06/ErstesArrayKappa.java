@@ -12,14 +12,12 @@ public class ErstesArrayKappa {
 	 * 
 	 */
 	public ErstesArrayKappa() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		int[] aIntArray = {1, 7, 33, 12, 21};
 		

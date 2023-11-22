@@ -1,6 +1,7 @@
 package Testate;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class TicTacToe {
@@ -12,11 +13,12 @@ public class TicTacToe {
         char[][] aPlayfield = new char[3][3];
         String sInput;
         Scanner oScanner = new Scanner(System.in);
+        Random oRandom = new Random();
 
         // --| TicTacToe ausführen |--
         while (true) {
             // --| TicTacToe starten |--
-            TicTacToe.startGame(aPlayfield, oScanner);
+            TicTacToe.startGame(aPlayfield, oScanner, oRandom);
 
             // Abfragen ob der User noch eine Runde spielen möchte
             System.out.print("\nWollen Sie noch eine Runde spielen [y/Y]?");
@@ -32,6 +34,7 @@ public class TicTacToe {
             // Schleife verlassen und Logik beenden
             break;
         }
+        oScanner.close();
     }
 
     /**
@@ -39,7 +42,7 @@ public class TicTacToe {
      * 1. Spielfeld initialisieren und ausgeben
      * 2. Abfragen ob der Anwender gegen den Rechner spielen möchte
      * 3. Spielernamen auslesen
-     * 4. Eingaben auslesen und validieren 
+     * 4. Eingaben auslesen und validieren
      * 5. Rechner Koordinaten berechnen lassen
      * 6. Koordinaten setzen
      * 7. Spielfeld ausgeben
@@ -47,16 +50,17 @@ public class TicTacToe {
      * 
      * @param aPlayfield
      * @param oScanner
+     * @param oRandom
      */
-    private static void startGame(char[][] aPlayfield, Scanner oScanner) {
+    private static void startGame(char[][] aPlayfield, Scanner oScanner, Random oRandom) {
         // --| Deklaration |--
         char cTurnChar;
         boolean bPCTurn = false,
                 bPlayAgainstPC = false;
         String sInput,
-               sCurrPlayer,
-               sPlayer1,
-               sPlayer2 = "PC";
+                sCurrPlayer,
+                sPlayer1,
+                sPlayer2 = "PC";
 
         // --| Spielfeld initialiseren und ausgeben |--
         TicTacToe.printArray2(aPlayfield, true);
@@ -106,7 +110,7 @@ public class TicTacToe {
              * 2. Rechner ist am Zug
              * 2.1 ToDo
              */
-            TicTacToe.setTurn(bPCTurn, sCurrPlayer, cTurnChar, aPlayfield, oScanner);
+            TicTacToe.setTurn(bPCTurn, sCurrPlayer, cTurnChar, aPlayfield, oScanner, oRandom);
             // Spielfeld ausgeben
             TicTacToe.printArray2(aPlayfield, false);
 
@@ -128,13 +132,47 @@ public class TicTacToe {
      * @param cTurnChar
      * @param sPlayer
      * @param aPlayfield
+     * @param oRandom
      * @return
      */
-    private static int[] pcTurn(String sPlayer, char[][] aPlayfield) {
+    private static int[] pcTurn(char cTurnChar, String sPlayer, char[][] aPlayfield, Random oRandom) {
+        // --| Deklaration |--
+        int iIndex = 0;
+        int[] aAvailRow = null,
+                aAvailColumn = null,
+                aCoordinate = new int[2];
 
+        // --| Ermittlung der freien |--
+        for (int k = 0; k < 2; k++) {
+            for (int i = 0; i < aPlayfield.length; i++) {
+                for (int j = 0; j < aPlayfield[i].length; j++) {
+                    if (aPlayfield[i][j] == '-') {
+                        if (k > 0) {
+                            aAvailRow[iIndex] = (i + 1);
+                            aAvailColumn[iIndex] = (j + 1);
+                        }
 
+                        iIndex++;
+                    }
+                }
+            }
 
-        return null;
+            if (k == 0) {
+                aAvailRow = new int[iIndex];
+                aAvailColumn = new int[iIndex];
+
+                iIndex = 0;
+            }
+        }
+
+        iIndex = oRandom.nextInt(0, aAvailRow.length);
+
+        //
+        aCoordinate[0] = aAvailRow[iIndex];
+        //
+        aCoordinate[1] = aAvailColumn[iIndex];
+
+        return aCoordinate;
     }
 
     /**
@@ -194,9 +232,10 @@ public class TicTacToe {
      * @param aPlayfield
      * @param aCoordinate
      * @param oScanner
+     * @param oRandom
      */
     private static void setTurn(boolean bPCTurn, String sPlayer, char cTurnChar, char[][] aPlayfield,
-            Scanner oScanner) {
+            Scanner oScanner, Random oRandom) {
         // --| Deklaration |--
         int[] aCoordinate;
 
@@ -206,7 +245,7 @@ public class TicTacToe {
         }
         // --| PC hat sich Koordinaten ausgewählt |--
         else {
-            aCoordinate = TicTacToe.pcTurn(sPlayer, aPlayfield);
+            aCoordinate = TicTacToe.pcTurn(cTurnChar, sPlayer, aPlayfield, oRandom);
         }
 
         // Koordinaten setzen

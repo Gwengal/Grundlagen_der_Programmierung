@@ -14,7 +14,6 @@ public class Primzahl {
 	 * 
 	 */
 	public Primzahl() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

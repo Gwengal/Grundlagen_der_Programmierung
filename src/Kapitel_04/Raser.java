@@ -5,11 +5,9 @@ import java.util.Scanner;
 public class Raser {
 
 	public Raser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Scanner oScan = new Scanner(System.in);
 		float fV;

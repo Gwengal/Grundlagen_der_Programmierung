@@ -1,15 +1,12 @@
 package Kapitel_02;
 
-import java.util.Iterator;
 
 public class Rechnen {
 
 	public Rechnen() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		int[] aX, aY;
 		int iSum, iDiv, iProd, iQuot;

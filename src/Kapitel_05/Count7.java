@@ -12,14 +12,12 @@ public class Count7 {
 	 * 
 	 */
 	public Count7() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		System.out.println(Count7.iter_Count7(717737) + " " + Count7.rek_Count7(7137));
 	}

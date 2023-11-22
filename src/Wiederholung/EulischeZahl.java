@@ -24,15 +24,15 @@ public class EulischeZahl {
      * @param iNumber
      * @return
      */
-    private static double fakultIt(int iNumber) {
-        double dFakult = 1;
+    // private static double fakultIt(int iNumber) {
+    //     double dFakult = 1;
 
-        for (int i = 1; i <= iNumber; i++) {
-            dFakult *= i;
-        }
+    //     for (int i = 1; i <= iNumber; i++) {
+    //         dFakult *= i;
+    //     }
 
-        return dFakult;
-    }
+    //     return dFakult;
+    // }
 
     /**
      * @param iNumber

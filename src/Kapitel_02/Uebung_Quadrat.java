@@ -5,11 +5,9 @@ import java.util.Scanner;
 public class Uebung_Quadrat {
 
 	public Uebung_Quadrat() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		int iInput, iExponent;
 		Scanner oScan = new Scanner(System.in);
@@ -21,6 +19,7 @@ public class Uebung_Quadrat {
 		// Enter an exponent
 		System.out.print("Erfassen Sie einen Exponenten: ");
 		iExponent = oScan.nextInt();
+		oScan.close();
 		
 		// Calc the expo of the number
 		System.out.print(iInput + " hoch " + iExponent + " = " + _calcExpo(iInput, iExponent));

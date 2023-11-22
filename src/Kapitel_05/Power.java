@@ -3,7 +3,6 @@
  */
 package Kapitel_05;
 
-import java.util.Scanner;
 
 /**
  * 
@@ -14,14 +13,12 @@ public class Power {
 	 * 
 	 */
 	public Power() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 	
 		System.out.println(Power.getPot(2, 7));
 	}

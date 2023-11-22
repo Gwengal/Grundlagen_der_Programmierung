@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Fehlersuche {
 
 	public Fehlersuche() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static void main (String[] args) {
@@ -30,6 +29,7 @@ public class Fehlersuche {
 		 System.out.println(a + "+" + b + "+" + c + "=" + sum);
 		 // --> Anführungszeichen fehlen
 		 System.out.println("********************"); 
+		 read.close();
 	}
 
 }

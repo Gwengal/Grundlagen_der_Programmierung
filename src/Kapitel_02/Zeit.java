@@ -9,11 +9,9 @@ import java.util.Scanner;
 public class Zeit {
 
 	public Zeit() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		// Declaration
 		String sInput;
@@ -37,6 +35,7 @@ public class Zeit {
 		
 		// Get the duration between oStart and oEnd
 		oDur = Duration.between(oStart, oEnd);
+		oScan.close();
 		
 		System.out.println("Seit Mitternacht sind " + (oDur.getSeconds() / 60) + " min vergangen." );		
 	}

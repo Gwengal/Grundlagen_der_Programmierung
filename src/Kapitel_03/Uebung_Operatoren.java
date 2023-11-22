@@ -7,11 +7,9 @@ import Exception.Uebung_Exception;
 public class Uebung_Operatoren {
 
 	public Uebung_Operatoren() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		
 		Scanner oScan = new Scanner(System.in);
 		
