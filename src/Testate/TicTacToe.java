@@ -10,10 +10,14 @@ public class TicTacToe {
      */
     public static void main(String[] args) {
         // --| Deklaration |--
+        int iStars = 20;
         char[][] aPlayfield = new char[3][3];
         String sInput;
         Scanner oScanner = new Scanner(System.in);
         Random oRandom = new Random();
+
+        // Start-Meldung ausgeben
+        TicTacToe.outputStardEnd(iStars, "Start");
 
         // --| TicTacToe ausführen |--
         while (true) {
@@ -34,7 +38,29 @@ public class TicTacToe {
             // Schleife verlassen und Logik beenden
             break;
         }
+
+        // End-Meldung ausgeben
+        TicTacToe.outputStardEnd(iStars, "Ende");
         oScanner.close();
+    }
+
+    /**
+     * Start/End Meldung ausgeben
+     * 
+     * @param iStars
+     * @param sMessage
+     */
+    private static void outputStardEnd(int iStars, String sMessage) {
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < iStars; j++) {
+                System.out.print("*");
+            }
+
+            System.out.print(sMessage);
+            sMessage = "";
+        }
+
+        System.out.print("\n");
     }
 
     /**
@@ -140,37 +166,137 @@ public class TicTacToe {
         int iIndex = 0;
         int[] aAvailRow = null,
                 aAvailColumn = null,
-                aCoordinate = new int[2];
+                aCoordinate = null;
 
-        // --| Ermittlung der freien |--
-        for (int k = 0; k < 2; k++) {
-            for (int i = 0; i < aPlayfield.length; i++) {
-                for (int j = 0; j < aPlayfield[i].length; j++) {
-                    if (aPlayfield[i][j] == '-') {
-                        if (k > 0) {
-                            aAvailRow[iIndex] = (i + 1);
-                            aAvailColumn[iIndex] = (j + 1);
+        /*
+         * Spielfeld überprüfen ob der gegnerische Spieler einen möglichen 
+         * Sieg eringen könnte. Dies wird unterbunden indem die Koordinate
+         * mit dem Spielzeichen des Computers belegt wird
+         */
+        aCoordinate = TicTacToe.checkVicThwarted(cTurnChar, aPlayfield);
+
+        // --| Ermittlung der freien Koordinaten auf dem Spielfeld |--
+        if (aCoordinate == null) {
+            aCoordinate = new int[2];
+
+            for (int k = 0; k < 2; k++) {
+                for (int i = 0; i < aPlayfield.length; i++) {
+                    for (int j = 0; j < aPlayfield[i].length; j++) {
+                        if (aPlayfield[i][j] == '-') {
+                            if (k > 0) {
+                                aAvailRow[iIndex] = (i + 1);
+                                aAvailColumn[iIndex] = (j + 1);
+                            }
+
+                            iIndex++;
                         }
-
-                        iIndex++;
                     }
+                }
+
+                // Arrays erzeugen und Index zurücksetzen für zweiten durchlauf
+                if (k == 0) {
+                    aAvailRow = new int[iIndex];
+                    aAvailColumn = new int[iIndex];
+
+                    iIndex = 0;
                 }
             }
 
-            if (k == 0) {
-                aAvailRow = new int[iIndex];
-                aAvailColumn = new int[iIndex];
-
-                iIndex = 0;
-            }
+            // Koordinaten zufällig bestimmen
+            iIndex = oRandom.nextInt(0, aAvailRow.length);
+            aCoordinate[0] = aAvailRow[iIndex];
+            aCoordinate[1] = aAvailColumn[iIndex];
         }
 
-        iIndex = oRandom.nextInt(0, aAvailRow.length);
+        System.out.println(sPlayer + " - hat folgende Koordinaten gewählt [Zeile,Spalte]: " + aCoordinate[0] + ","
+                + aCoordinate[1]);
 
-        //
-        aCoordinate[0] = aAvailRow[iIndex];
-        //
-        aCoordinate[1] = aAvailColumn[iIndex];
+        return aCoordinate;
+    }
+
+    /**
+     * Das aktuelle Spielfeld wird überprüft, ob der Gegner 
+     * einen möglichen Sieg eringen könnte. Sollte dies der 
+     * Fall sein, muss dies dringend verhindert werden.
+     * 
+     * @param cTurnChar
+     * @param aPlayfield
+     * @return
+     */
+    private static int[] checkVicThwarted(char cTurnChar, char[][] aPlayfield) {
+        // --| Deklaration |--
+        char cEnemyTurn = (cTurnChar == 'x' ? 'o' : 'x');
+        int[] aCoordinate = new int[2];
+
+        // --| Horizontale, vertikale und schräge Siege verhindern |--
+        try {
+            for (int i = 0; i < aPlayfield.length; i++) {
+                // Horizontalen Sieg von links verhindern
+                if (aPlayfield[i][0] == cEnemyTurn && aPlayfield[i][1] == cEnemyTurn) {
+                    aCoordinate[0] = (i+1);
+                    aCoordinate[1] = 3;
+
+                    throw new Exception();
+                }
+                // Horizontalen Sieg von rechts verhindern
+                else if (aPlayfield[i][2] == cEnemyTurn && aPlayfield[i][1] == cEnemyTurn) {
+                    aCoordinate[0] = (i+1);
+                    aCoordinate[1] = 1;
+
+                    throw new Exception();
+                }
+                // Vertikalen Sieg von oben nach unten verhindern
+                else if (aPlayfield[0][i] == cEnemyTurn && aPlayfield[1][i] == cEnemyTurn) {
+                    aCoordinate[0] = 3;
+                    aCoordinate[1] = (i+1);
+
+                    throw new Exception();
+                }
+                // Vertikalen Sieg von unten nach oben verhindern
+                else if (aPlayfield[2][i] == cEnemyTurn && aPlayfield[1][i] == cEnemyTurn) {
+                    aCoordinate[0] = 1;
+                    aCoordinate[1] = (i+1);
+
+                    throw new Exception();
+                }
+            }
+
+            // Schrägen Sieg von links oben nach rechts unten verhindern
+            if (aPlayfield[0][0] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn) {
+                aCoordinate[0] = 3;
+                aCoordinate[1] = 3;
+
+                throw new Exception();
+            } 
+            // Schrägen Sieg von rechts unten nach links oben verhindern
+            else if (aPlayfield[2][2] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn) {
+                aCoordinate[0] = 1;
+                aCoordinate[0] = 1;
+
+                throw new Exception();
+            }
+            // Schrägen Sieg von rechts oben nach links unten verhindern
+            else if (aPlayfield[0][2] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn){
+                aCoordinate[0] = 3;
+                aCoordinate[1] = 1;
+
+                throw new Exception();
+            }
+            // Schrägen Sieg von links unten nach rechts oben verhindern
+            else if (aPlayfield[2][0] == cEnemyTurn && aPlayfield[1][1] == cEnemyTurn){
+                aCoordinate[0] = 1;
+                aCoordinate[1] = 3;
+
+                throw new Exception();
+            }
+
+            /*
+             * Es muss noch kein Sieg verhindert werden
+             * -> Koordinaten-Array auf null setzen
+             */
+            aCoordinate = null;
+        } catch (Exception e) {
+        }
 
         return aCoordinate;
     }
@@ -192,7 +318,7 @@ public class TicTacToe {
         boolean bWin = false;
 
         // --| Überprüfung ob der aktuelle Spieler gewonnen hat |--
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < aPlayfield.length; i++) {
             // Horrizontal gewonnen
             if (aPlayfield[i][0] == cTurnChar && aPlayfield[i][1] == cTurnChar && aPlayfield[i][2] == cTurnChar) {
                 bWin = true;
