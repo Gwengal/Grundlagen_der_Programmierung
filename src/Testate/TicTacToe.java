@@ -84,6 +84,7 @@ public class TicTacToe {
      */
     private static void startGame(char[][] aPlayfield, Scanner oScanner, Random oRandom) {
         // --| Deklaration |--
+        int iStartIndex;
         char cTurnChar;
         boolean bPCTurn = false,
                 bPlayAgainstPC = false;
@@ -116,13 +117,16 @@ public class TicTacToe {
             sPlayer2 = oScanner.nextLine();
         }
 
+        // Start-Spieler Random bestimmen
+        iStartIndex = oRandom.nextInt(0,2);
+
         // --| Ein Spiel kann max. 9 Runden dauern (3x3) |--
         for (int i = 0; i < 9; i++) {
             /*
              * 1. Setzen des aktuellen Spielers + dessen Spielzeichen
              * 2. Setzen ob der Rechner an der Reihe ist
              */
-            if (i % 2 == 0) {
+            if (iStartIndex % 2 == 0) {
                 sCurrPlayer = sPlayer1;
                 cTurnChar = _scPlayer1;
                 bPCTurn = false;
@@ -157,6 +161,8 @@ public class TicTacToe {
             if ((i + 1) == 9) {
                 System.out.println("Unentschieden!");
             }
+
+            iStartIndex++;
         }
     }
 
@@ -367,7 +373,6 @@ public class TicTacToe {
              * |-|x|
              * |-|
              */
-
             else if (aPlayfield[0][2] == cTurn && aPlayfield[1][1] == cTurn
                     && aPlayfield[2][0] == _scPlayfield) {
                 aCoordinate[0] = 3;
