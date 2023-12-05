@@ -94,4 +94,13 @@ public class Socke {
     public static Socke init(String sFarbe, boolean bTrocken){
         return new Socke(sFarbe, bTrocken);
     }
+    /**
+     * Initialisierung einer Instanz zur Socke
+     * 
+     * @param sFarbe
+     * @return
+     */
+    public static Socke init(String sFarbe){
+        return new Socke(sFarbe, true);
+    }
 }
