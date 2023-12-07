@@ -2,24 +2,20 @@ package Kapitel_07;
 
 public class Socke {
     // --| Attribute |--
+    public static int iAnzahl = 0;
     private String _sFarbe;
     private boolean _bTrocken;
 
     // --| Konstrukturen |--
-    /**
-     * Konstruktor für die Klasse Socke
-     */
     public Socke() {
-
+        iAnzahl++;
     }
-
     /**
-     * Konsturktor für die Klasse Socke
-     * 
      * @param sFarbe
      * @param bTrocken
      */
     private Socke(String sFarbe, boolean bTrocken) {
+        this();
         this.setFarbe(sFarbe);
         this.setTrocken(bTrocken);
     }

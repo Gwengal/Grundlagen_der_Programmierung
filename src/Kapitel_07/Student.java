@@ -81,6 +81,8 @@ public class Student {
      * @return
      */
     public String getInfo(){
+        System.out.println();
+
         return "Student: " + this.getName() + 
                "\nMartikelnummer: " + this.getMNum() +
                "\nGeburtstag: " + this.getBDate().format(Student.oPattern) +

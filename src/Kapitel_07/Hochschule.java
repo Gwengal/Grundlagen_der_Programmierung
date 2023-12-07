@@ -13,5 +13,9 @@ public class Hochschule {
         System.out.println(oStudi1.getInfo());
         oStudi1.newSem(true);
         System.out.println(oStudi1.getInfo());
+
+        System.out.println(oStudi2.getInfo());
+        oStudi2.change("Wirtschaftsinformatik");
+        System.out.println(oStudi2.getInfo());
     }
 }
