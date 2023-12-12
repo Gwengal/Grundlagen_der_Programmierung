@@ -31,35 +31,37 @@ public class Faehre {
      * Neues Auto der Liste hinzüfgen
      * 
      * @param oCar
-     * @throws Exception
      */
     public void push(Auto oCar) {
         if (this.isFull()) {
-            System.out.println("Fähre ist voll! (" + this._aCars.length + "/" + this.getTop() + ")");
-            System.out.println("Das Auto " + oCar.getLicPlate() + " mit dem Gewicht " + oCar.getWeight() + " kg kann nicht mitfahren");
+            System.out.println("\nFähre ist voll! (" + this.getTop() + "/" + this._aCars.length + ")");
+            System.out.println("Das Auto " + oCar.getLicPlate() + " mit dem Gewicht " + oCar.getWeight() + " kg kann nicht mitfahren.\n");
             return;
         }
 
         this._aCars[this.getTop()] = oCar;
         this.setTop(this.getTop() + 1);
+
+        System.out.println("Das Auto " + oCar.getLicPlate() + " mit dem Gewicht " + oCar.getWeight() + " kg ist auf die Fähre gefahren. (" + this.getTop() + "/" + this._aCars.length + ")");
     }
 
     /**
      * Letztes Auto aus der Liste entfernen
      * 
      * @return
-     * @throws Exception
      */
-    public Auto pop() throws Exception{
+    public Auto pop(){
+        this.printStars(Faehre._iStars);
         if (this.isEmpty()) {
-            System.out.println("Auf der Fähre befinden sich keine Fahrzeuge! (" + this._aCars.length + "/" + this.getTop() + ")");
+            System.out.println("Auf der Fähre befinden sich keine Fahrzeuge! (" + this.getTop() + "/" + this._aCars.length + ")\n");
             return null;
         }
 
         this.setTop(this.getTop() - 1);
         Auto oBuffer = this._aCars[this.getTop()];
         this._aCars[this.getTop()] = null;
-
+        
+        System.out.println("Ausfahren des " + (this.getTop()+1) + ". Autos: " + oBuffer.getLicPlate() + " " + oBuffer.getWeight() + " kg. (" + this.getTop() + "/" + this._aCars.length + ")\n");
         return oBuffer;
     }
     
@@ -94,17 +96,28 @@ public class Faehre {
         }
 
         this.printStars(Faehre._iStars);
-        System.out.println("Aktuelles Gewicht auf der Fähre: " + iSumWeight + " kg");
+        System.out.println("Aktuelles Gewicht auf der Fähre: " + iSumWeight + " kg\n");
     }
 
     /**
      * Ausgabe der Autos auf der Fähre
      */
     public void outputCars(){
+        this.printStars(Faehre._iStars);
+        System.out.println("Momentan sind " + this._aCars.length + " Fahrzeuge auf der Fähre: ");
 
+        for (Auto oCar : this._aCars) {
+            System.out.println("- " + oCar.getLicPlate() + "\t" + oCar.getWeight() + " kg");
+        }
+        System.out.println();
     }
 
     // --| private Methoden |--
+    /**
+     * Sterne ausgeben
+     * 
+     * @param iNum
+     */
     private void printStars(int iNum){
         for (int i = 0; i < iNum; i++) {
             System.out.print("*");

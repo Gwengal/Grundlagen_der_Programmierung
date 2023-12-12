@@ -6,8 +6,9 @@ public class Auto {
     private int _iWeight;
 
     // --| Konstruktoren |--
-    private Auto(String sLicPlate, int iWeight){
-
+    public Auto(String sLicPlate, int iWeight){
+        this.setLicPlate(sLicPlate);
+        this.setWeight(iWeight);
     }
 
     // --| Getter |--
