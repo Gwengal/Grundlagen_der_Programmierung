@@ -11,13 +11,13 @@ public class Wuerfelspiel {
         oGame.addPlayer(new Spieler("Dennis"));
         oGame.play();
 
-        System.out.println(oGame.toString());
+        System.out.println(oGame);
 
         oGame.addPlayer(new Spieler("Emil"));
         oGame.play();
         oGame.sortBest();
 
-        System.out.println(oGame.toString());
+        System.out.println(oGame);
     }
 
     /**
