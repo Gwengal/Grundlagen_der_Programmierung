@@ -156,6 +156,8 @@ class Spiel{
         // --| Deklaration |--
         String sReturn = "";
 
+        
+
         // --| Spielerliste in einem String zwischenspeichern |--
         for (Spieler oPlayer : this._aPlayers) {
             if (oPlayer == null) {
