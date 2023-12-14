@@ -17,7 +17,7 @@ public class Wuerfelspiel {
         oGame.play();
         oGame.sortBest();
 
-        System.out.println(oGame);
+        System.out.println(oGame.toString());
     }
 
     /**
