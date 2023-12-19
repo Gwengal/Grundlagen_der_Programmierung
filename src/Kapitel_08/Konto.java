@@ -5,6 +5,9 @@ public class Konto {
     private float _fStand;
 
     // --| Konstruktoren |--
+    public Konto(int iNumber){
+        this.setNumber(iNumber);
+    }
 
     // --| Instanz-Methoden |--
     /**
@@ -23,6 +26,13 @@ public class Konto {
      */
     public void auszahlen(float fBetrag){
         this.setStand(this.getStand() - fBetrag);
+    }
+
+    /**
+     * Kontonummer und Stand ausgeben
+     */
+    public void print(){
+        System.out.println("Kontonummer: " + this.getNumber() + "\nKontostand: " + this.getStand() + " EUR\n");
     }
 
     // --| Getter |--
