@@ -127,6 +127,8 @@ public class Bruch {
     }
 
     /**
+     * Init Bruch-Objekt
+     * 
      * @param iZaehler
      * @param iNenner
      * @return
