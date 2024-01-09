@@ -2,22 +2,40 @@ package Paul;
 
 class Wuerfelspiel {
 	public static void main(String[] args) throws InterruptedException {
-		Game oGame = new Game(5);
-		oGame.addPlayer(new Player("Anna"));
-		oGame.addPlayer(new Player("Berta"));
-		oGame.addPlayer(new Player("Cäsar"));
-		oGame.addPlayer(new Player("Dennis"));
-		oGame.play();
+		double wert = 1.0F;    
+		double delta = 1.0F;    
+		int i = 0; 
+		//zaehler    
+		do{    
+			delta /= 10.;     
+			i++;    
+		}while (wert != wert + delta);   
+		System.out.println ("Delta: " + delta);   
+		System.out.println ("Signifikante Stellen: " + i); 
 
-		System.out.println(oGame.toString());
+		int a = -5;
+		int b = 2;
+		int mod = 0;
+		int div = 0;
 
-		oGame.addPlayer(new Player("Emil"));
-		oGame.play();
-		oGame.sortBeste();
+		mod = a % b;
+		div = a/b;
 
-		System.out.println(oGame.toString());
-	}
-}
+// Game oGame = new Game(5);
+// oGame.addPlayer(new Player("Anna"));
+// oGame.addPlayer(new Player("Berta"));
+// oGame.addPlayer(new Player("Cäsar"));
+// oGame.addPlayer(new Player("Dennis"));
+// oGame.play();
+
+// System.out.println(oGame.toString());
+
+// oGame.addPlayer(new Player("Emil"));
+// oGame.play();
+// oGame.sortBeste();
+
+// System.out.println(oGame.toString());
+}}
 
 class Wuerfel {
 	private static int MAX_AUGENZAHL = 6;
