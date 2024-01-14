@@ -13,13 +13,13 @@ class Wuerfelspiel {
 		System.out.println ("Delta: " + delta);   
 		System.out.println ("Signifikante Stellen: " + i); 
 
-		int a = -5;
-		int b = 2;
-		int mod = 0;
-		int div = 0;
+		// int a = -5;
+		// int b = 2;
+		// int mod = 0;
+		// int div = 0;
 
-		mod = a % b;
-		div = a/b;
+		// mod = a % b;
+		// div = a/b;
 
 // Game oGame = new Game(5);
 // oGame.addPlayer(new Player("Anna"));
