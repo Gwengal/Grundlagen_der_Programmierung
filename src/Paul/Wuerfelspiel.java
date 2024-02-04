@@ -21,6 +21,8 @@ class Wuerfelspiel {
 		// mod = a % b;
 		// div = a/b;
 
+		
+
 // Game oGame = new Game(5);
 // oGame.addPlayer(new Player("Anna"));
 // oGame.addPlayer(new Player("Berta"));
