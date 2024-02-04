@@ -31,33 +31,41 @@ public class Stack {
      * 
      * @param oBook
      */
-    public void push(Buch oBook) {
-        //_aBooks[_iTop++] = oBook;
+    public void push(Buch oBook) throws Exception {
+        // _aBooks[_iTop++] = oBook;
+        if (this.isFull()) {
+            throw new Exception("Stapel ist voll!");
+        }
+
         _aBooks[this.getTop()] = oBook;
-        this.setTop(this.getTop()+1);
+        this.setTop(this.getTop() + 1);
     }
 
     /**
      * Rückgabe des letzten Buches
-     *  
+     * 
      * @return
      */
-    public Buch pop(){
-        //return _aBooks[--_iTop];
-        this.setTop(this.getTop()-1);
+    public Buch pop() throws Exception {
+        // return _aBooks[--_iTop];
+        if (this.isEmpty()) {
+            throw new Exception("Stapel ist leer!");
+        }
+
+        this.setTop(this.getTop() - 1);
 
         Buch oBook = _aBooks[this.getTop()];
         _aBooks[this.getTop()] = null;
 
         return oBook;
     }
-    
+
     /**
      * Ist das Array leer?
      * 
      * @return
      */
-    public boolean isEmpty(){
+    private boolean isEmpty() {
         return this.getTop() == 0;
     }
 
@@ -66,7 +74,7 @@ public class Stack {
      * 
      * @return
      */
-    public boolean isFull(){
+    private boolean isFull() {
         return this.getTop() == _aBooks.length;
     }
 }
